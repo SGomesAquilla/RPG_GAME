@@ -3,7 +3,7 @@ import { Sala, Engine, Ferramenta, Objeto } from "./Basicas.js";
 import { Martelo, Chave } from "./FerramentasDemo.js";
 import { Armario, Bilhete, PoteDeAcucar, PoteDeArroz } from "./ObjetosDemo.js";
 
-export class HallEntrada extends Sala {
+export class PoraoUmido extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
 		super("Hall_de_Entrada",engine);
@@ -17,7 +17,7 @@ export class HallEntrada extends Sala {
 	}
 }
 // ---------------------------------------------
-export class SalaDeEstar extends Sala {
+export class CelaInicial extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
 		super("Sala_de_Estar",engine);
@@ -38,7 +38,7 @@ export class SalaDeEstar extends Sala {
 	}
 }
 // ---------------------------------------------
-export class Quarto extends Sala {
+export class SalaoCentral extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
 		super("Quarto",engine);
@@ -54,7 +54,7 @@ export class Quarto extends Sala {
 	}
 }
 // ---------------------------------------------
-export class Cozinha extends Sala {
+export class Biblioteca extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
 		super("Cozinha",engine);
@@ -79,5 +79,21 @@ export class Cozinha extends Sala {
 		}
 		return usou;
 	}
+}
+
+export class Arsenal extends Sala {
+
+}
+
+export class CamaraSecreta extends Sala {
+
+}
+
+export class SalaBossFinal extends Sala {
+
+}
+
+export class salaSaida extends Sala {
+
 }
 // ---------------------------------------------

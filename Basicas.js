@@ -1,6 +1,33 @@
 import {validate} from "bycontract";
 import promptsync from 'prompt-sync';
 const prompt = promptsync({sigint: true});
+// -------------------------------------------
+export class Magia extends Ferramenta {
+	#elemento;
+	#custoMana;
+
+	constructor(nome, elemento, custoMana){
+		super(nome);
+
+		validate(arguments, ["String", "String", "Number"]);
+
+		this.#elemento = elemento;
+		this.#custoMana = custoMana;
+	}
+
+	get elemento() {
+		return this.#elemento;
+	}
+
+	get custoMana() {
+		return this.#custoMana
+	}
+
+	usar() {
+		console.log(`Você conjura ${this.nome}`)
+	}
+}
+
 // ---------------------------------------------
 export class Ferramenta {
 	#nome;
@@ -19,7 +46,7 @@ export class Ferramenta {
 	}
 }
 
-export class Mochila{
+export class Mochila {
 	#ferramentas;
 
 	constructor(){
@@ -46,7 +73,6 @@ export class Mochila{
 		return this.#ferramentas.map(obj => obj.nome).join(", ");
 	}
 }
-
 // ---------------------------------------------
 export class Objeto {
 	#nome;

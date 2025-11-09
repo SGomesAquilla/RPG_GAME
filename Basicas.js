@@ -2,32 +2,64 @@ import {validate} from "bycontract";
 import promptsync from 'prompt-sync';
 const prompt = promptsync({sigint: true});
 // -------------------------------------------
-export class Magia extends Ferramenta {
-	#elemento;
-	#custoMana;
+export class NPC {
+	#nome;
+	#descricao
+	#descricaoAtaqueFalha;
+	#descricaoAtaqueSucesso;
+	#fraqueza;
+	#hostil;
+	#vivo
 
-	constructor(nome, elemento, custoMana){
-		super(nome);
-
-		validate(arguments, ["String", "String", "Number"]);
-
-		this.#elemento = elemento;
-		this.#custoMana = custoMana;
+	constructor(nome, descricao, descricaoAtaqueFalha, descricaoAtaqueSucesso, fraqueza, hostil) {
+		validate(arguments,["String", "String", "String", "String", "Optional", "Boolean"]);
+		this.#nome = nome;
+		this.#descricao = descricao
+		this.#descricaoAtaqueFalha = descricaoAtaqueFalha;
+		this.#descricaoAtaqueSucesso = descricaoAtaqueSucesso;
+		this.#fraqueza = fraqueza;   // pode ser Ferramenta ou null
+		this.#hostil = hostil;
+		this.#vivo = true;
 	}
 
-	get elemento() {
-		return this.#elemento;
+	get nome() {
+		return this.#nome;
 	}
 
-	get custoMana() {
-		return this.#custoMana
+	get vivo() {
+		return this.#vivo;
 	}
 
-	usar() {
-		console.log(`Você conjura ${this.nome}`)
+	get descricao() {
+		if (this.#vivo) {
+			return this.#descricao;
+		} else {
+			return `${this.nome} está morto.`;
+		}
 	}
+
+	usa(ferramenta, engine) {
+		validate(arguments, [Ferramenta, Engine]);
+
+		if (this.#vivo) {
+			console.log(`O que está fazendo ?... ${this.#nome} já está morto...`);
+			return false;
+		}
+
+		// Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
+		if (this.#fraqueza == null || ferramenta.nome === this.#fraqueza.nome) {
+			this.#vivo = false;
+			console.log(this.#descricaoAtaqueSucesso);
+			return true;
+		} else {
+			console.log(this.#descricaoAtaqueFalha);
+			engine.indicaFimDeJogo();
+			return false;
+		}
+
+	}	
+
 }
-
 // ---------------------------------------------
 export class Ferramenta {
 	#nome;

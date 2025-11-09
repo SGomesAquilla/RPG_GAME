@@ -6,7 +6,7 @@ import { Armario, Bilhete, PoteDeAcucar, PoteDeArroz } from "./ObjetosDemo.js";
 export class PoraoUmido extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
-		super("Hall_de_Entrada",engine);
+		super("Porao",engine);
         let martelo = new Martelo();
 		this.ferramentas.set(martelo.nome,martelo);
 	}

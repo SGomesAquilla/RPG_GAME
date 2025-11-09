@@ -1,0 +1,38 @@
+docs
+
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Build output
+dist/
+build/
+coverage/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+
+# Optional: OS-specific files
+*.bak
+*.tmp
+
+# Optional: lock files (if you want reproducible installs, keep them instead)
+# package-lock.json
+# yarn.lock

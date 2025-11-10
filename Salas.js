@@ -104,6 +104,8 @@ export class Biblioteca extends Sala {
 
 		//Ferramentas na Sala
 		let lancaDeFogo = new LancaDeFogo();
+		let penaTinteiro = new PenaTinteiro();
+		this.ferramentas.set(penaTinteiro.nome, penaTinteiro);
 		this.ferramentas.set(lancaDeFogo.nome, lancaDeFogo);
 
 	}
@@ -230,10 +232,6 @@ export class SalaSaida extends Sala {
 		// Objetos na Sala
 		let portao = new Portao();
 		this.objetos.set(portao.nome, portao);
-
-		// Ferramentas na Sala
-		let penaTinteiro = new PenaTinteiro();
-		this.ferramentas.set(penaTinteiro.nome, penaTinteiro);
 	}
 
 	usa(ferramentaNome, objetoNome) {

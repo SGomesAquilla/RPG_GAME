@@ -68,6 +68,6 @@ export class MisseisMagicos extends Magia {
 
 export class Luz extends Magia {
 	constructor() {
-		super("Luz", "Nao Letal", 5);
+		super("Magia_de_Luz", "Nao Letal", 5);
 	}
 }

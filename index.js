@@ -1,4 +1,4 @@
-import { JogoDemo } from "./JogoDemo.js";
+import { JogoDemo } from "./Jogo.js";
 
 let jogo = new JogoDemo();
 jogo.joga();

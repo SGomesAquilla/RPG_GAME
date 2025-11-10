@@ -9,7 +9,7 @@ class NPC extends Objeto {
     #vivo;
 
     constructor(nome, descricao, descricaoAtaqueFalha, descricaoAtaqueSucesso, fraqueza, hostil) {
-        validate(arguments,["String", "String", "String", "String", "Optional", "Boolean"]);
+        validate(arguments,["String", "String", "String", "String", "String", "Boolean"]);
         super(nome, descricao, "");
         this.#descricaoAtaqueFalha = descricaoAtaqueFalha;
         this.#descricaoAtaqueSucesso = descricaoAtaqueSucesso;
@@ -27,7 +27,7 @@ class NPC extends Objeto {
     }
 
     usa(ferramenta, engine) {
-        validate(arguments, [Ferramenta, Engine]);
+        validate(arguments, [ferramenta, engine]);
 
         if (!this.#vivo) {
             console.log(`O que está fazendo ?... ${this.nome} já está morto...`);
@@ -35,7 +35,7 @@ class NPC extends Objeto {
         }
 
         // Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
-        if (this.#fraqueza == null || ferramenta.nome === this.#fraqueza.nome) {
+        if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza.nome) {
             this.#vivo = false;
             console.log(this.#descricaoAtaqueSucesso);
             return true;
@@ -48,4 +48,58 @@ class NPC extends Objeto {
 
     }	
 
+}
+
+export class RatoGigante extends NPC {
+    constructor() {
+        super(
+            "Rato_Gigante",                                          
+            "Um rato enorme com olhos vermelhos e dentes sujos.",    
+            "O ataque não surte efeito couro grosso do rato!",         
+            "Você perfura o rato gigante. Ele guincha e morre.", 
+            "espada",                                         
+            true                                                     
+        );
+    }
+}
+
+export class Goblin extends NPC {
+    constructor() {
+        super(
+            "Goblin",
+            "Uma pequena criatura verde com um sorriso malicioso.",
+            "O goblin esquiva do seu ataque e ri da sua cara!",
+            "Você acerta o goblin. Ele cai no chão, derrotado.",
+            "qualquer",
+            true
+        );
+    }
+}
+
+export class Insectoide extends NPC {
+    constructor() {
+        validate(arguments, []);
+        super(
+            "Insectoide",
+            "Um inseto gigante com carapaça dura e mandíbulas afiadas.",
+            "Sua magia reflete na carapaça do inseto sem causar dano!",
+            "Você consegue perfurar a carapaça com sua espada.",
+            "Magia_Lanca_de_Fogo",
+            true
+        );
+    }
+}
+
+export class Espirito extends NPC {
+    constructor() {
+        validate(arguments, []);
+        super(
+            "Espirito",
+            "Uma alma perdida vagando sem rumo, levemente translúcida.",
+            "Sua arma passa direto pelo corpo do espírito!",
+            "A magia atinge o espírito e ele desaparece.",
+            "Magia_Raio_Divino",
+            true
+        );
+    }
 }

@@ -1,4 +1,4 @@
-import {Ferramenta, Mochila, Magia} from "./Basicas.js";
+import {Ferramenta, Mochila} from "./Basicas.js";
 
 // ---------------------------------------------
 export class Chave extends Ferramenta {
@@ -40,5 +40,11 @@ export class Corda extends Ferramenta {
 export class Cantil extends Ferramenta {
 	constructor() {
 		super("cantil");
+	}
+}
+
+export class PenaTinteiro extends Ferramenta {
+	constructor() {
+		super("pena_tinteiro");
 	}
 }

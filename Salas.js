@@ -1,8 +1,11 @@
 import { validate } from "bycontract";
+import promptsync from 'prompt-sync';
+const prompt = promptsync({sigint: true});
 import { Sala, Engine, Ferramenta, Objeto } from "./Basicas.js";
-import { Martelo, Chave, Espada } from "./FerramentasDemo.js";
-import { Armario, Carta, Candelabro, BarrilQuebrado, EstanteDeLivros, EsqueletoAntigo, Bau } from "./ObjetosDemo.js";
-import { LancaDeFogo, RaioDeGelo, RaioDivino } from "./Magias.js";
+import { Chave, Espada, PenaTinteiro} from "./Ferramentas.js";
+import { Armario, CamaDePalha, BarrilQuebrado, Carta, Bau, EsqueletoAntigo, Cama, Estatua, Candelabro, Escrivaninha, EstanteDeLivros, Portao } from "./Objetos.js";
+import { LancaDeFogo, RaioDeGelo, RaioDivino, Luz } from "./Magias.js";
+import { RatoGigante, Goblin, Insectoide, Espirito } from "./NonPlayerChars.js";
 
 export class PoraoUmido extends Sala {
 	constructor(engine) {
@@ -49,7 +52,7 @@ export class Cela extends Sala {
 export class SalaoCentral extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
-		super("Salao Central",engine);
+		super("Salao_Central",engine);
 
 		//Objetos na Sala
 		let candelabro = new Candelabro();
@@ -74,7 +77,7 @@ export class SalaoCentral extends Sala {
 		let fer = this.engine.mochila.pega(ferramenta);
 
 		// Caso específico: usar Lança de Fogo no Candelabro
-		if (fer instanceof LancaDeFogo && obj instanceof Candelabro) {
+		if (fer.nome === "Magia_Lanca_de_Fogo" && obj instanceof Candelabro) {
 			console.log("O candelabro cai em cima de ti, o matando!");
 			this.engine.indicaFimDeJogo();
 			return true;
@@ -95,8 +98,8 @@ export class Biblioteca extends Sala {
 		let escrivaninha = new Escrivaninha();
 		let carta = new Carta();
 		let estanteDeLivros = new EstanteDeLivros();
-		this.escrivaninha.set(escrivaninha.nome, escrivaninha);
-		this.carta.set(carta.nome, carta);
+		this.objetos.set(escrivaninha.nome, escrivaninha);
+		this.objetos.set(carta.nome, carta);
 		this.objetos.set(estanteDeLivros.nome, estanteDeLivros);
 
 		//Ferramentas na Sala
@@ -114,7 +117,7 @@ export class Biblioteca extends Sala {
 			return false;
 		}
         // Caso específico: usar Lança de Fogo no Candelabro
-		if (fer instanceof LancaDeFogo && obj instanceof EstanteDeLivros) {
+		if (fer.nome === "Magia_Lanca_de_Fogo" && obj instanceof EstanteDeLivros) {
 			console.log("A estante incendiou... quanto conhecimento jogado fora...");
 			return true;
 		}
@@ -204,8 +207,9 @@ export class SalaSecreta extends Sala {
 }
 
 export class Corredor extends Sala {
-	constructor() {
-		super("Corredor")
+	constructor(engine) {
+		validate(engine,Engine);
+		super("Corredor", engine)
 
 		// NPCs na Sala
 		let espirito = new Espirito();
@@ -219,8 +223,9 @@ export class Corredor extends Sala {
 }
 
 export class SalaSaida extends Sala {
-	constructor() {
-		super("Saida")
+	constructor(engine) {
+		validate(engine,Engine);
+		super("Saida", engine)
 
 		// Objetos na Sala
 		let portao = new Portao();

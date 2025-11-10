@@ -1,5 +1,5 @@
 import {Engine} from "./Basicas.js"
-import { Biblioteca, Cela, SalaSaida, Biblioteca, PoraoUmido, Quarto, Corredor, SalaSecreta, SalaoCentral } from "./SalasDemo.js";
+import { Cela, SalaSaida, Biblioteca, PoraoUmido, Quarto, Corredor, SalaSecreta, SalaoCentral } from "./Salas.js";
 
 export class JogoDemo extends Engine{
     constructor(){

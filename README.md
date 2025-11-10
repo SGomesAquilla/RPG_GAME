@@ -70,32 +70,120 @@ Abaixo está a estrutura técnica atual do projeto, mostrando a relação entre 
 
 ```mermaid
 classDiagram
+    %% --- CLASSES BASE ---
     class Engine {
         +Mochila mochila
         +Sala salaCorrente
-        +joga()
+        +Boolean fim
+        +indicaFimDeJogo() void
+        +criaCenario() void
+        +joga() void
     }
+
     class Sala {
+        +String nome
         +Map objetos
         +Map ferramentas
         +Map portas
-        +usa(ferramenta, objeto)
+        +Map npc
+        +Engine engine
+        +pega(String) void
+        +sai(String) void
+        +usa(String, String) Boolean
     }
+
     class Ferramenta {
-        +usar()
+        +String nome
+        +usar() Boolean
     }
+
     class Objeto {
-        +usar(Ferramenta)
+        +String nome
+        +String descricaoAntes
+        +String descricaoDepois
+        +Boolean acaoOK
+        +descricao() String
+        +usar(Ferramenta) Boolean
     }
+
+    %% --- HIERARQUIA DE NPC (Herda de Objeto) ---
     class NPC {
-        +vida
-        +hostil
-        +fraqueza
+        -String descricaoAtaqueFalha
+        -String descricaoAtaqueSucesso
+        -String fraqueza
+        -Boolean hostil
+        -Boolean vivo
+        +getVivo() Boolean
+        +getDescricao() String
+        +usa(Ferramenta, Engine) Boolean
     }
-    
-    Engine --> Sala : Gerencia
-    Sala o-- Objeto : Contém
-    Sala o-- Ferramenta : Contém
-    Sala o-- NPC : Contém
     Objeto <|-- NPC
+    NPC <|-- RatoGigante
+    NPC <|-- Goblin
+    NPC <|-- Insectoide
+    NPC <|-- Espirito
+
+    class RatoGigante { +fraqueza: "espada" }
+    class Goblin { +fraqueza: "qualquer" }
+    class Insectoide { +fraqueza: "Magia_Lanca_de_Fogo" }
+    class Espirito { +fraqueza: "Magia_Raio_Divino" }
+
+    %% --- RELAÇÕES PRINCIPAIS ---
+    Engine --> Sala : salaCorrente
+    Sala --> Engine : engine
+    Sala o-- Ferramenta : contem
+    Sala o-- Objeto : contem
+    Sala o-- NPC : contem
+    Sala --> Sala : vizinha (portas)
+
+    %% --- HIERARQUIA DE FERRAMENTAS ---
+    class Magia {
+        -String elemento
+        -int usosRestantes
+        +usar() Boolean
+    }
     Ferramenta <|-- Magia
+    Magia <|-- LancaDeFogo
+    Magia <|-- RaioDivino
+    Magia <|-- RaioDeGelo
+    Magia <|-- MisseisMagicos
+    Magia <|-- Luz
+
+    Ferramenta <|-- Chave
+    Ferramenta <|-- Martelo
+    Ferramenta <|-- Espada
+    Ferramenta <|-- Escudo
+    Ferramenta <|-- Balde
+    Ferramenta <|-- Corda
+    Ferramenta <|-- Cantil
+    Ferramenta <|-- PenaTinteiro
+
+    %% --- HIERARQUIA DE OBJETOS ---
+    Objeto <|-- Armario
+    Objeto <|-- Carta
+    Objeto <|-- Bau
+    Objeto <|-- CamaDePalha
+    Objeto <|-- EsqueletoAntigo
+    Objeto <|-- Candelabro
+    Objeto <|-- Escrivaninha
+    Objeto <|-- EstanteDeLivros
+    Objeto <|-- Cama
+    Objeto <|-- Estatua
+    Objeto <|-- BarrilQuebrado
+    Objeto <|-- Portao
+
+    class Bau {
+        -Map conteudo
+        -Boolean aberto
+        +usar(Chave, Engine)
+    }
+
+    %% --- HIERARQUIA DE SALAS ---
+    Sala <|-- PoraoUmido
+    Sala <|-- Cela
+    Sala <|-- SalaoCentral
+    Sala <|-- Biblioteca
+    Sala <|-- Quarto
+    Sala <|-- SalaSecreta
+    Sala <|-- Corredor
+    Sala <|-- SalaSaida

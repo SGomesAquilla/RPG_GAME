@@ -24,7 +24,7 @@ export class PoraoUmido extends Sala {
 	}
 }
 // ---------------------------------------------
-export class CelaInicial extends Sala {
+export class Cela extends Sala {
 	constructor(engine) {
 		validate(engine, Engine);
 		super("Cela", engine);
@@ -218,7 +218,7 @@ export class Corredor extends Sala {
 	}
 }
 
-export class salaSaida extends Sala {
+export class SalaSaida extends Sala {
 	constructor() {
 		super("Saida")
 

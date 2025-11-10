@@ -1,5 +1,5 @@
 import {Engine} from "./Basicas.js"
-import { Cozinha, HallEntrada, Quarto, SalaDeEstar } from "./SalasDemo.js";
+import { Biblioteca, Cela, SalaSaida, Biblioteca, PoraoUmido, Quarto, Corredor, SalaSecreta, SalaoCentral } from "./SalasDemo.js";
 
 export class JogoDemo extends Engine{
     constructor(){
@@ -8,20 +8,32 @@ export class JogoDemo extends Engine{
 
     criaCenario(){
         // Define as salas que compõem o mapa
-        let hall = new HallEntrada(this);
-        let sala = new SalaDeEstar(this);
+        let poraoUmido = new PoraoUmido(this);
+        let cela = new Cela(this);
+        let salaoCentral = new SalaoCentral(this);
+        let biblioteca = new Biblioteca(this);
         let quarto = new Quarto(this);
-        let cozinha = new Cozinha(this);
+        let salaSecreta = new SalaSecreta(this);
+        let corredor = new Corredor(this);
+        let salaSaida = new SalaSaida(this);
 
         // Encadeia as salas através das portas
-        hall.portas.set(sala.nome,sala);
-        sala.portas.set(hall.nome,hall);
-        sala.portas.set(quarto.nome,quarto);
-        sala.portas.set(cozinha.nome,cozinha);
-        quarto.portas.set(sala.nome,sala);
-        cozinha.portas.set(sala.nome,sala);
+        poraoUmido.portas.set(cela.nome, cela);
+        cela.portas.set(poraoUmido.nome,poraoUmido);
+        cela.portas.set(salaoCentral.nome, salaoCentral);
+        salaoCentral.portas.set(cela.nome, cela);
+        salaoCentral.portas.set(biblioteca.nome, biblioteca);
+        salaoCentral.portas.set(corredor.nome, corredor);
+        salaoCentral.portas.set(quarto.nome, quarto);
+        biblioteca.portas.set(salaoCentral.nome, salaoCentral);
+        quarto.portas.set(salaoCentral.nome, salaoCentral);
+        quarto.portas.set(salaSecreta.nome, salaSecreta); //
+        salaSecreta.portas.set(quarto.nome, quarto);
+        corredor.portas.set(salaoCentral.nome, salaoCentral);
+        corredor.portas.set(salaSaida.nome, salaSaida);
+        salaSaida.portas.set(corredor.nome, corredor);
 
         // Define a sala inicial
-        this.salaCorrente = hall;
+        this.salaCorrente = cela;
     }
 }

@@ -7,8 +7,9 @@ export class PoraoUmido extends Sala {
 	constructor(engine) {
         validate(engine,Engine);
 		super("Porao",engine);
-        let martelo = new Martelo();
-		this.ferramentas.set(martelo.nome,martelo);
+		let ratoGigante = new RatoGigante();
+        let barrilQuebrado = new BarrilQuebrado();
+		this.ferramentas.set(barrilQuebrado.nome,barrilQuebrado);
 	}
 
 	usa(ferramenta,objeto) {

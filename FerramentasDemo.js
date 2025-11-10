@@ -1,5 +1,4 @@
 import {Ferramenta, Mochila, Magia} from "./Basicas.js";
-import {validate} from "bycontract"
 
 // ---------------------------------------------
 export class Chave extends Ferramenta {
@@ -16,47 +15,30 @@ export class Martelo extends Ferramenta {
 // ---------------------------------------------
 export class Espada extends Ferramenta {
 	constructor() {
-		super("espada")
+		super("espada");
 	}
 }
 // ---------------------------------------------
-export class Magia extends Ferramenta {
-	#elemento;
-	#usos;
-	#usosRestantes;
-
-	constructor(nome, elemento, usos){
-		super(nome);
-
-		validate(arguments, ["String", "String", "Number"]);
-
-		this.#elemento = elemento;
-		this.#usos = usos;
-		this.#usosRestantes;
+export class Escudo extends Ferramenta {
+	constructor() {
+		super("escudo");
 	}
-
-	get elemento() {
-		return this.#elemento;
+}
+// ---------------------------------------------
+export class Balde extends Ferramenta {
+	constructor() {
+		super("balde");
 	}
-
-	get usos() {
-		return this.#usos;
+}
+// ---------------------------------------------
+export class Corda extends Ferramenta {
+	constructor() {
+		super("corda");
 	}
-
-	get usosRestantes() {
-		return this.usosRestantes;
-	}
-
-	usar() {
-		if (this.#usosRestantes <=0) {
-			console.log(`Você não tem mais mana para conjurar ${this.nome}`);
-			return false;
-		}
-
-		this.#usosRestantes--;
-		console.log(`Você conjura ${this.nome}`);
-		console.log(`${this.#usosRestantes} usos restantes`);
-
-		return true;
+}
+// ---------------------------------------------
+export class Cantil extends Ferramenta {
+	constructor() {
+		super("cantil");
 	}
 }

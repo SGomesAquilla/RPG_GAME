@@ -1,65 +1,6 @@
 import {validate} from "bycontract";
 import promptsync from 'prompt-sync';
 const prompt = promptsync({sigint: true});
-// -------------------------------------------
-export class NPC {
-	#nome;
-	#descricao
-	#descricaoAtaqueFalha;
-	#descricaoAtaqueSucesso;
-	#fraqueza;
-	#hostil;
-	#vivo
-
-	constructor(nome, descricao, descricaoAtaqueFalha, descricaoAtaqueSucesso, fraqueza, hostil) {
-		validate(arguments,["String", "String", "String", "String", "Optional", "Boolean"]);
-		this.#nome = nome;
-		this.#descricao = descricao
-		this.#descricaoAtaqueFalha = descricaoAtaqueFalha;
-		this.#descricaoAtaqueSucesso = descricaoAtaqueSucesso;
-		this.#fraqueza = fraqueza;   // pode ser Ferramenta ou null
-		this.#hostil = hostil;
-		this.#vivo = true;
-	}
-
-	get nome() {
-		return this.#nome;
-	}
-
-	get vivo() {
-		return this.#vivo;
-	}
-
-	get descricao() {
-		if (this.#vivo) {
-			return this.#descricao;
-		} else {
-			return `${this.nome} está morto.`;
-		}
-	}
-
-	usa(ferramenta, engine) {
-		validate(arguments, [Ferramenta, Engine]);
-
-		if (this.#vivo) {
-			console.log(`O que está fazendo ?... ${this.#nome} já está morto...`);
-			return false;
-		}
-
-		// Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
-		if (this.#fraqueza == null || ferramenta.nome === this.#fraqueza.nome) {
-			this.#vivo = false;
-			console.log(this.#descricaoAtaqueSucesso);
-			return true;
-		} else {
-			console.log(this.#descricaoAtaqueFalha);
-			engine.indicaFimDeJogo();
-			return false;
-		}
-
-	}	
-
-}
 // ---------------------------------------------
 export class Ferramenta {
 	#nome;
@@ -149,6 +90,7 @@ export class Sala {
 	#nome;
 	#objetos;
 	#ferramentas;
+	#npc;
 	#portas;
 	#engine;
 	
@@ -158,6 +100,7 @@ export class Sala {
 		this.#objetos = new Map();
 		this.#ferramentas = new Map();
 		this.#portas = new Map();
+		this.#npc = new Map()
 		this.#engine = engine;
 	}
 
@@ -165,13 +108,16 @@ export class Sala {
 		return this.#nome;
 	}
 	
-	
 	get objetos() {
 		return this.#objetos;
 	}
 
 	get ferramentas() {
 		return this.#ferramentas;
+	}
+
+	get npc() {
+		return this.#npc;
 	}
 	
 	get portas(){
@@ -190,6 +136,11 @@ export class Sala {
 	ferramentasDisponiveis(){
 		let arrFer = [...this.#ferramentas.values()];
     	return arrFer.map(f=>f.nome);		
+	}
+
+	npcsDisponiveis() {
+		let arrNpc = [...this.#npc.values()];
+		return arrNpc.map(n => n.nome);
 	}
 	
 	portasDisponiveis(){
@@ -226,6 +177,11 @@ export class Sala {
         }else{
             descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n";
         }
+		if (this.npc.size == 0)
+			descricao += "Não há ninguém aqui\n";
+		else
+			descricao += "Você vê: " + this.npcsDisponiveis() + "\n";
+
         descricao += "Portas: "+this.portasDisponiveis()+"\n";
 		return descricao;
 	}
@@ -237,7 +193,7 @@ export class Sala {
 // ---------------------------------------------
 //Exemplo de como pode ser a classe de controle do jogo
 // ---------------------------------------------
-export class Engine{
+export class Engine {
 	#mochila;
 	#salaCorrente;
 	#fim;

@@ -44,24 +44,30 @@ class Magia extends Ferramenta {
 
 export class LancaDeFogo extends Magia {
     constructor() {
-        super("Lanca_de_Fogo", "Fogo", 3);
+        super("Magia_Lanca_de_Fogo", "Fogo", 3);
     }
 }
 
 export class RaioDivino extends Magia {
     constructor() {
-        super("Raio_Divino", "Radiante", 1);
+        super("Magia_Raio_Divino", "Radiante", 1);
     }
 }
 
 export class RaioDeGelo extends Magia {
     constructor() {
-        super("Raio_de_Gelo", "Congelante", 3);
+        super("Maia_Raio_de_Gelo", "Congelante", 3);
     }
 }
 
 export class MisseisMagicos extends Magia {
     constructor() {
-        super("Misseis_Magicos", "Energia", 2);
+        super("Magia_Misseis_Magicos", "Energia", 2);
     }
+}
+
+export class Luz extends Magia {
+	constructor() {
+		super("Luz", "Nao Letal", 5);
+	}
 }

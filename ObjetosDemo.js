@@ -10,18 +10,14 @@ export class Armario extends Objeto {
 
 	usar(ferramenta) {
         validate(ferramenta,Ferramenta);
-		if (ferramenta instanceof Chave) {
-			this.acaoOk = true;
-			return true;
-		}
 		return false;
 	}
 
 }
 // ---------------------------------------------
-export class Bilhete extends Objeto {
+export class Carta extends Objeto {
     constructor() {
-		super("bilhete","Há um bilhete, nele está escrito \"A vida é doce!\"","");
+		super("carta","Há uma carta, nela está escrito \"A vida é doce!\"","");
 	}
 
 	usar(ferramenta) {
@@ -98,7 +94,7 @@ export class Bau extends Objeto {
         }
 
         // Abrir com chave
-        if (ferramenta instanceof Chave || ferramenta.nome === "chave") {
+        if (ferramenta instanceof Chave) {
             this.#aberto = true;
             this.acaoOk = true;
             console.log("Você destranca o baú e ele se abre com um estalo.");

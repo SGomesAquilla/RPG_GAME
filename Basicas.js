@@ -197,6 +197,7 @@ export class Engine {
 	#mochila;
 	#salaCorrente;
 	#fim;
+	#vitoria;
 
 	constructor(){
 		this.#mochila = new Mochila();
@@ -218,8 +219,9 @@ export class Engine {
 		this.#salaCorrente = sala;
 	}
 
-	indicaFimDeJogo(){
+	indicaFimDeJogo(resultado){ // Modificado para opção de Vitória ou Derrota. True significa Vitória. Retornar False significa Derrota
 		this.#fim = true;
+		this.#vitoria = resultado;
 	}
 
 	// Para criar um jogo deriva-se uma classe a partir de
@@ -240,6 +242,7 @@ export class Engine {
 			switch (tokens[0]) {
 			case "fim":
 				this.#fim = true;
+				this.#vitoria = false;
 				break;
 			case "pega":
 				if (this.salaCorrente.pega(tokens[1])) {
@@ -255,7 +258,12 @@ export class Engine {
 					if (this.salaCorrente.usa(tokens[1],tokens[2])) {
 						console.log("Feito !!");
 						if (this.#fim == true){
-							console.log("Parabens, voce venceu!");
+							// Mudando um pouco a lógica para que haja também o caso de uma Derrota
+							if (this.#vitoria) {
+								console.log("Parabéns!!! Você Venceu 🏆")
+							} else {
+								console.log("Fim de Jogo... Você Perdeu 💀")
+							}
 						}
 					} else {
 						console.log("Não é possível usar " + tokens[1] + "sobre" + tokens[2] + " nesta sala");
@@ -274,6 +282,8 @@ export class Engine {
 				break;
 			}
 		}
-		console.log("Jogo encerrado!");
+		console.log("-------------------------");
+		console.log("JOGO ENCERRADO!");
+		console.log("-------------------------");
 	}
 }

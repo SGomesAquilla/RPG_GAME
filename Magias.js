@@ -3,43 +3,48 @@ import {validate} from "bycontract"
 
 class Magia extends Ferramenta {
 	#elemento;
-	#usos;
 	#usosRestantes;
 
-	constructor(nome, elemento, usos){
+	constructor(nome, elemento, limiteUsos){
 		super(nome);
 
 		validate(arguments, ["String", "String", "Number"]);
 
 		this.#elemento = elemento;
-		this.#usos = usos;
-		this.#usosRestantes;
+		this.#usosRestantes = limiteUsos;
 	}
 
 	get elemento() {
 		return this.#elemento;
 	}
 
-	get usos() {
-		return this.#usos;
-	}
 
 	get usosRestantes() {
-		return this.usosRestantes;
+		return this.#usosRestantes;
 	}
 
-	usar() {
-		if (this.#usosRestantes <=0) {
-			console.log(`Você não tem mais mana para conjurar ${this.nome}`);
-			return false;
-		}
-
-		this.#usosRestantes--;
-		console.log(`Você conjura ${this.nome}`);
-		console.log(`${this.#usosRestantes} usos restantes`);
-
-		return true;
-	}
+	usar() { 
+        if (this.#usosRestantes <= 0) {
+            console.log(`Você não tem mais mana para conjurar ${this.nome}.`);
+            return false;
+        }
+        return true;
+    }
+	
+	consumirUso() {
+        if (this.#usosRestantes > 0) {
+            this.#usosRestantes--;
+            console.log(`Mana consumida. ${this.#usosRestantes} usos restantes de ${this.nome}.`);
+            
+            // Retorna true se o uso chegou a zero (para a Engine saber que deve deletar)
+            if (this.#usosRestantes <= 0) { 
+                console.log(`\n*** A Magia ${this.nome} se esvaiu e será removida! ***\n`);
+                return true; 
+            }
+        }
+        return false; // Não quebrou/esvaiu
+    }
+	
 }
 
 export class LancaDeFogo extends Magia {

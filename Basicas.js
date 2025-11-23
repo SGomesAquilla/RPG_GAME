@@ -4,6 +4,7 @@ const prompt = promptsync({sigint: true});
 // ---------------------------------------------
 export class Ferramenta {
 	#nome;
+	#usosRestantes;
 
 	constructor(nome) {
         validate(nome,"String");
@@ -352,7 +353,7 @@ export class Engine {
 						}
 					} else {
 						console.log("-------------------------");
-						console.log("Não é possível usar " + tokens[1] + "sobre" + tokens[2] + " nesta sala");
+						console.log("Não é possível usar " + tokens[1] + " sobre " + tokens[2] + " nesta sala");
 						console.log("-------------------------");
 					}
 				break;

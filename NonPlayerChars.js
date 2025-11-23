@@ -22,6 +22,10 @@ class NPC extends Objeto {
         return this.#vivo;
     }
 
+    get hostil() {
+        return this.#hostil;
+    }
+
     get descricao() {
         return this.#vivo ? this.descricaoAntesAcao : `${this.nome} está morto.`;
     }
@@ -46,6 +50,7 @@ class NPC extends Objeto {
             // Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
             if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza) {
                 this.#vivo = false;
+                this.#hostil = false;
                 console.log(this.#descricaoAtaqueSucesso);
                 return true;
             } else {
@@ -64,8 +69,8 @@ export class RatoGigante extends NPC {
     constructor() {
         super(
             "Rato_Gigante",                                          
-            "Um rato enorme com olhos vermelhos e dentes sujos.",    
-            "O ataque não surte efeito no couro grosso do rato!\n Ele pula em você te perfura com seus gigantescos dentes e você morre",         
+            "enorme com olhos vermelhos e dentes sujos.",    
+            "O rato desvia do seu ataque! \n Ele então pula em você te perfura com seus gigantescos dentes, o matando...",         
             "Você perfura o rato gigante. Ele guincha e morre.", 
             "espada",                                         
             true                                                     
@@ -79,7 +84,7 @@ export class Goblin extends NPC {
             "Goblin",
             "Uma pequena criatura verde com um sorriso malicioso.",
             "O goblin esquiva do seu ataque e ri da sua cara!",
-            "Você acerta o goblin. Ele cai no chão, derrotado.",
+            "Você acerta o goblin em cheio. Ele cai no chão, derrotado.",
             "qualquer",
             true
         );
@@ -92,8 +97,8 @@ export class Insectoide extends NPC {
         super(
             "Insectoide",
             "Um inseto gigante com carapaça dura e mandíbulas afiadas.",
-            "Sua magia reflete na carapaça do inseto sem causar dano!",
-            "Você consegue perfurar a carapaça com sua espada.",
+            "Seu ataque não foi efetivo!\n A criatura voa em sua direção rapidamente e te devora...",
+            "Sua magia incedeia a criatura e ela desfalece em cinzas no chão.",
             "Magia_Lanca_de_Fogo",
             true
         );

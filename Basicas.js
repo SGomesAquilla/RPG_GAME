@@ -174,8 +174,16 @@ export class Sala {
 		} else {
 			descricao += "--------------------------------------------------\n";
 			const npcAtual = [...this.npc.values()][0];
-			if (npcAtual.vivo) {
-				descricao += "Você vê: " + this.npcsDisponiveis() + "\n"; // NPCs na Sala
+			if (npcAtual.vivo) { // NPCs na Sala
+				if (npcAtual.hostil) {
+					descricao += "CUIDADO! Você avista: " + this.npcsDisponiveis() + "\n";
+					descricao += "Ele é agressivo para contigo! Fuja (sai) ou Derrote (ataca) ele para prosseguir!";
+					return descricao // Retorna a descricao e impede o resto das informaçoes, indiretamente impedindo o Jogador continuar enquanto não derrotar o NPC
+									// Método simples (quebra-galho) de obrigar o Jogador interagir em combate com os NPCs, mas não bloqueia o jogador de realizar
+									// quaisquer outras acoes que estariam 'invisiveis' na sala, caso ele saiba que exista aquela informacao naquela sala
+				} else {
+					descricao += "Você vê: " + this.npcsDisponiveis() + "\n";
+				}
 			} else {
 				descricao += "Você vê: " + this.npcsDisponiveis() + " morto" + "\n";
 			}
@@ -241,6 +249,7 @@ export class Engine {
 		this.#mochila = new Mochila();
 		this.#salaCorrente = null;
 		this.#fim = false;
+		this.#vitoria = false;
 		this.criaCenario();
 	}
 
@@ -275,7 +284,8 @@ export class Engine {
 		while (!this.#fim) {
 			console.log("--------------------------------------------------");
 			console.log(this.salaCorrente.textoDescricao());
-			acao = prompt("O que voce deseja fazer? ");
+			acao = prompt("O que voce deseja fazer ? ");
+			console.log("==============================================================================================================================================================");
 			tokens = acao.split(" ");
 			switch (tokens[0]) {
 			case "fim":
@@ -284,15 +294,15 @@ export class Engine {
 				break;
 			case "pega":
 				if (this.salaCorrente.pega(tokens[1])) {
-					console.log("-------------------------");
+					
 					console.log("Ok! " + tokens[1] + " guardado!");
 				} else {
-					console.log("-------------------------");
+					
 					console.log("Objeto " + tokens[1] + " não encontrado.");
 				}
 				break;
 			case "inventario":
-				console.log("-------------------------");
+				
 				console.log("Ferramentas disponiveis para serem usadas: " + this.#mochila.inventario());
 				break;
 			case "usa":

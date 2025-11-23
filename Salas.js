@@ -79,7 +79,7 @@ export class SalaoCentral extends Sala {
 		// Caso específico: usar Lança de Fogo no Candelabro
 		if (fer.nome === "Magia_Lanca_de_Fogo" && obj instanceof Candelabro) {
 			console.log("O candelabro cai em cima de ti, o matando!");
-			this.engine.indicaFimDeJogo();
+			this.engine.indicaFimDeJogo(false);
 			return true;
 		}
 	}

@@ -166,23 +166,30 @@ export class Sala {
 	}
 
 	textoDescricao() {
-		let descricao = "Você está no "+this.nome+"\n";
+		let descricao = "Você está no "+this.nome+"\n\n";
+		
         if (this.objetos.size == 0){
-            descricao += "Não há objetos na sala\n";
+            descricao += "Não há objetos na sala\n\n";
+			
         }else{
-            descricao += "Objetos: "+this.objetosDisponiveis()+"\n";
+            descricao += "Objetos: "+this.objetosDisponiveis()+"\n\n";
+			
         }
         if (this.ferramentas.size == 0){
-            descricao += "Não há ferramentas na sala\n";
+            descricao += "Não há ferramentas na sala\n\n";
+			
         }else{
-            descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n";
+            descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n\n";
+			
         }
-		if (this.npc.size == 0)
-			descricao += "Não há ninguém aqui\n";
-		else
-			descricao += "Você vê: " + this.npcsDisponiveis() + "\n";
-
-        descricao += "Portas: "+this.portasDisponiveis()+"\n";
+		if (this.npc.size == 0) {
+			descricao += "Não há ninguém aqui\n\n";
+		
+		} else {
+			descricao += "Você vê: " + this.npcsDisponiveis() + "\n\n";
+			
+		}
+        descricao += "Portas: "+this.portasDisponiveis()+"\n\n";
 		return descricao;
 	}
 
@@ -246,13 +253,19 @@ export class Engine {
 				break;
 			case "pega":
 				if (this.salaCorrente.pega(tokens[1])) {
+					console.log("-------------------------");
 					console.log("Ok! " + tokens[1] + " guardado!");
+					console.log("-------------------------");
 				} else {
+					console.log("-------------------------");
 					console.log("Objeto " + tokens[1] + " não encontrado.");
+					console.log("-------------------------");
 				}
 				break;
 			case "inventario":
+				console.log("-------------------------");
 				console.log("Ferramentas disponiveis para serem usadas: " + this.#mochila.inventario());
+				console.log("-------------------------");
 				break;
 			case "usa":
 					if (this.salaCorrente.usa(tokens[1],tokens[2])) {
@@ -260,19 +273,27 @@ export class Engine {
 						if (this.#fim == true){
 							// Mudando um pouco a lógica para que haja também o caso de uma Derrota
 							if (this.#vitoria) {
+								console.log("-------------------------");
 								console.log("Parabéns!!! Você Venceu 🏆")
+								console.log("-------------------------");
 							} else {
+								console.log("-------------------------");
 								console.log("Fim de Jogo... Você Perdeu 💀")
+								console.log("-------------------------");
 							}
 						}
 					} else {
+						console.log("-------------------------");
 						console.log("Não é possível usar " + tokens[1] + "sobre" + tokens[2] + " nesta sala");
+						console.log("-------------------------");
 					}
 				break;
 			case "sai":
 				novaSala = this.salaCorrente.sai(tokens[1]);
 				if (novaSala == null) {
+					console.log("-------------------------");
 					console.log("Sala desconhecida ...");
+					console.log("-------------------------");
 				} else {
 					this.#salaCorrente = novaSala;
 				}

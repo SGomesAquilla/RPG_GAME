@@ -42,18 +42,19 @@ class NPC extends Objeto {
             return true;
         }
 
-        // Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
-        if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza) {
-            this.#vivo = false;
-            console.log(this.#descricaoAtaqueSucesso);
-            return true;
-        }
-
         if (this.#hostil && this.#vivo) {
-            console.log(`${this.nome} contra-ataca!`);
-            engine.indicaFimDeJogo(false);
-            return true
+            // Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
+            if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza) {
+                this.#vivo = false;
+                console.log(this.#descricaoAtaqueSucesso);
+                return true;
+            } else {
+                console.log(this.#descricaoAtaqueFalha)
+                engine.indicaFimDeJogo(false);
+                return true
+            }
         }
+        
         return false
     }	
 

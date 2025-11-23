@@ -130,22 +130,22 @@ export class Sala {
 	
 	objetosDisponiveis(){
 		let arrObjs = [...this.#objetos.values()];
-    	return arrObjs.map(obj=>obj.nome+":"+obj.descricao);
+    	return arrObjs.map(obj=>"• "+obj.nome+": "+obj.descricao).join('\n');
 	}
 
 	ferramentasDisponiveis(){
 		let arrFer = [...this.#ferramentas.values()];
-    	return arrFer.map(f=>f.nome);		
+    	return arrFer.map(f=>"• "+f.nome).join('\n');		
 	}
 
 	npcsDisponiveis() {
 		let arrNpc = [...this.#npc.values()];
-		return arrNpc.map(n => n.nome);
+		return arrNpc.map(n =>n.nome);
 	}
 	
 	portasDisponiveis(){
 		let arrPortas = [...this.#portas.values()];
-    	return arrPortas.map(sala=>sala.nome);
+    	return arrPortas.map(sala=>"• "+sala.nome).join('\n');
 	}
 	
 	pega(nomeFerramenta) {
@@ -166,29 +166,41 @@ export class Sala {
 	}
 
 	textoDescricao() {
-		let descricao = "Você está no "+this.nome+"\n\n";
+		let descricao = "Você está no "+this.nome+"\n"; // Nome da Sala
 		if (this.npc.size == 0) {
-			descricao += "Não há ninguém aqui\n\n";
+			descricao += "--------------------------------------------------\n";
+			descricao += "Não há ninguém aqui\n";
 		
 		} else {
-			descricao += "Você vê: " + this.npcsDisponiveis() + "\n\n";
-			
+			descricao += "--------------------------------------------------\n";
+			const npcAtual = [...this.npc.values()][0];
+			if (npcAtual.vivo) {
+				descricao += "Você vê: " + this.npcsDisponiveis() + "\n"; // NPCs na Sala
+			} else {
+				descricao += "Você vê: " + this.npcsDisponiveis() + " morto" + "\n";
+			}
 		}
 		if (this.ferramentas.size == 0){
-            descricao += "Não há ferramentas na sala\n\n";
+			descricao += "--------------------------------------------------\n";
+            descricao += "Não há ferramentas na sala\n\n"; 
 			
         }else{
-            descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n\n";
+			descricao += "--------------------------------------------------\n";
+            descricao += "Ferramentas:\n"+this.ferramentasDisponiveis()+"\n"; // Ferramentas na Sala
 			
         }		
         if (this.objetos.size == 0){
+			descricao += "--------------------------------------------------\n";
             descricao += "Não há objetos na sala\n\n";
 			
         }else{
-            descricao += "Objetos: "+this.objetosDisponiveis()+"\n\n";
+			descricao += "--------------------------------------------------\n";
+            descricao += "Objetos:\n"+this.objetosDisponiveis()+"\n"; // Objetos na Sala
 			
         }
-        descricao += "Portas: "+this.portasDisponiveis()+"\n\n";
+		descricao += "--------------------------------------------------\n";
+        descricao += "Portas:\n"+this.portasDisponiveis()+"\n"; // Direções
+		descricao += "--------------------------------------------------\n";
 		return descricao;
 	}
 
@@ -196,8 +208,24 @@ export class Sala {
 		return false;
 	}
 
-	ataca(ferramenta, npc){
-		return false;
+	ataca(ferramentaNome, npcNome) {
+		validate(arguments, ["String", "String"]);
+		
+		if (!this.engine.mochila.tem(ferramentaNome)) {
+			return false;
+		}
+		if (!this.npc.has(npcNome)) {
+			return false;
+		}
+		
+		// Obtém a instância do NPC
+		let alvoNpc = this.npc.get(npcNome); 
+		
+		// Obtém a instância da Ferramenta
+		let fer = this.engine.mochila.pega(ferramentaNome); 
+		
+		// Chamada do método ataca() da classe NPC
+		return alvoNpc.ataca(fer, this.engine);
 	}
 }
 // ---------------------------------------------
@@ -245,7 +273,7 @@ export class Engine {
 		let acao = "";
 		let tokens = null;
 		while (!this.#fim) {
-			console.log("-------------------------");
+			console.log("--------------------------------------------------");
 			console.log(this.salaCorrente.textoDescricao());
 			acao = prompt("O que voce deseja fazer? ");
 			tokens = acao.split(" ");

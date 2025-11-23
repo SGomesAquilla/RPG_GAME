@@ -111,7 +111,7 @@ export class Espirito extends NPC {
         super(
             "Espirito",
             "Uma alma perdida vagando sem rumo, levemente translúcida.",
-            "Sua arma passa direto pelo corpo do espírito!",
+            "Seu ataque passa direto pelo corpo do espírito e não lhe causa dano algum!\n Ele, então toca em você e o faz definhar lentamente até sua morte, sugando sua energia vital.",
             "A magia atinge o espírito e ele desaparece.",
             "Magia_Raio_Divino",
             true

@@ -21,20 +21,40 @@ export class Ferramenta {
 
 export class Mochila {
 	#ferramentas;
+	#slots;
 
-	constructor(){
+	constructor(limite){
+		validate(arguments, ["Number"]);
 		this.#ferramentas = [];
+		this.#slots = limite;
+	}
+
+	get espacoLivreNaMochila() {
+		return this.#slots - this.#ferramentas.length;
 	}
 
 	guarda(ferramenta){
 		validate(ferramenta,Ferramenta);
-		this.#ferramentas.push(ferramenta);
+		if (this.espacoLivreNaMochila > 0) {
+			this.#ferramentas.push(ferramenta);
+		}
 	}
 
 	pega(nomeFerramenta){
 		validate(arguments,["String"]);
 		let ferramenta = this.#ferramentas.find(f => f.nome === nomeFerramenta);
 		return ferramenta;
+	}
+
+	remove(nomeFerramenta) {
+		validate(arguments, ["String"]);
+		const id = this.#ferramentas.findIndex(f => f.nome === nomeFerramenta)
+		if (id !== -1) {
+            const ferramentaRemovida = this.#ferramentas.splice(id, 1)[0];
+            return ferramentaRemovida; 
+        }
+		
+		return false;
 	}
 
 	tem(nomeFerramenta){
@@ -246,7 +266,7 @@ export class Engine {
 	#vitoria;
 
 	constructor(){
-		this.#mochila = new Mochila();
+		this.#mochila = new Mochila(3, ["tocha"]);
 		this.#salaCorrente = null;
 		this.#fim = false;
 		this.#vitoria = false;
@@ -284,8 +304,8 @@ export class Engine {
 		while (!this.#fim) {
 			console.log("--------------------------------------------------");
 			console.log(this.salaCorrente.textoDescricao());
-			acao = prompt("O que voce deseja fazer ? ");
 			console.log("==============================================================================================================================================================\n");
+			acao = prompt("O que voce deseja fazer ? ");
 			tokens = acao.split(" ");
 			switch (tokens[0]) {
 			case "fim":
@@ -294,16 +314,27 @@ export class Engine {
 				break;
 			case "pega":
 				if (this.salaCorrente.pega(tokens[1])) {
-					
-					console.log("Ok! " + tokens[1] + " guardado!");
+					if (this.mochila.espacoLivreNaMochila > 0) {
+						console.log("Ok! " + tokens[1] + " guardado!");
+					} else {
+						console.log("Não espaço na Mochila. Remova um item para Adicionar outro.")
+					}
 				} else {
-					
 					console.log("Objeto " + tokens[1] + " não encontrado.");
 				}
 				break;
+			case "remova":
+				if (this.mochila.tem(tokens[1])) {
+					let ferramentaRemovida = this.mochila.remove(tokens[1]);
+					this.salaCorrente.ferramentas.set(ferramentaRemovida.nome, ferramentaRemovida);
+					console.log("Ok! " + tokens[1] + " removido!");
+				} else {
+					console.log("Você não tem uma ferramenta chamada " + tokens[1] + " em sua Mochila")
+				}
+				break;
 			case "inventario":
-				
 				console.log("Ferramentas disponiveis para serem usadas: " + this.#mochila.inventario());
+				console.log("Espaço livre na Mochila: " + this.#mochila.espacoLivreNaMochila);
 				break;
 			case "usa":
 					if (this.salaCorrente.usa(tokens[1],tokens[2])) {

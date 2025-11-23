@@ -48,3 +48,9 @@ export class PenaTinteiro extends Ferramenta {
 		super("pena_tinteiro");
 	}
 }
+// ---------------------------------------------
+export class Tocha extends Ferramenta {
+	constructor() {
+		super("tocha");
+	}
+}

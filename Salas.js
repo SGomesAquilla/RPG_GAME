@@ -68,6 +68,7 @@ export class SalaoCentral extends Sala {
 		if (!this.objetos.has(objeto)) {
 			return false;
 		}
+
 		let obj = this.objetos.get(objeto);
 		let fer = this.engine.mochila.pega(ferramenta);
 
@@ -113,7 +114,11 @@ export class Biblioteca extends Sala {
 		if (!this.objetos.has(objeto)){
 			return false;
 		}
-        // Caso específico: usar Lança de Fogo no Candelabro
+
+		let obj = this.objetos.get(objeto);
+		let fer = this.engine.mochila.pega(ferramenta);
+
+        // Caso específico: usar Lança de Fogo na EstanteDeLivros
 		if (fer.nome === "Magia_Lanca_de_Fogo" && obj instanceof EstanteDeLivros) {
 			console.log("A estante incendiou... quanto conhecimento jogado fora...");
 			return true;
@@ -152,17 +157,18 @@ export class Quarto extends Sala {
 		let fer = this.engine.mochila.pega(ferramenta);
 
 		// Interação especial: usar Luz na Estátua abre passagem secreta
-		if (!this.passagemAberta && fer.nome === "Luz" && this.objetos.has(objeto)) {
+		if (!this.passagemAberta && fer.nome === "Magia_de_Luz" && this.objetos.has(objeto)) {
 			let obj = this.objetos.get(objeto);
 
 			if (obj instanceof Estatua) {
 				console.log("A luz reflete na estátua, revelando uma passagem secreta!");
 				
-				// Cria ou referencia a sala secreta
+				// Cria sala secreta
 				let salaSecreta = new SalaSecreta(this.engine);
 
 				// Adiciona como porta da sala atual
-				this.portas.set("passagem_secreta", salaSecreta);
+				this.portas.set(salaSecreta.nome, salaSecreta);
+				salaSecreta.portas.set(this.nome, this);
 
 				this.passagemAberta = true;
 				return true;
@@ -212,11 +218,6 @@ export class Corredor extends Sala {
 		let espirito = new Espirito();
 		this.npc.set(espirito.nome, espirito);
 	}
-
-	usa(ferramenta,objeto) {
-		validate(arguments,["String","String"]);
-		return false;
-	}
 }
 
 export class SalaSaida extends Sala {
@@ -254,11 +255,11 @@ export class SalaSaida extends Sala {
 
             if (resposta === "vento") {
                 console.log("O portão se abre lentamente e você consegue sair. Parabéns, você venceu!");
-                this.engine.indicaFimDeJogo();
+                this.engine.indicaFimDeJogo(true);
                 return true;
             } else {
                 console.log("Palavra incorreta! A sala começa a desmoronar...");
-                this.engine.indicaFimDeJogo();
+                this.engine.indicaFimDeJogo(false);
                 return false;
             }
         }

@@ -13,7 +13,6 @@ export class JogoDemo extends Engine{
         let salaoCentral = new SalaoCentral(this);
         let biblioteca = new Biblioteca(this);
         let quarto = new Quarto(this);
-        let salaSecreta = new SalaSecreta(this);
         let corredor = new Corredor(this);
         let salaSaida = new SalaSaida(this);
 
@@ -27,8 +26,6 @@ export class JogoDemo extends Engine{
         salaoCentral.portas.set(quarto.nome, quarto);
         biblioteca.portas.set(salaoCentral.nome, salaoCentral);
         quarto.portas.set(salaoCentral.nome, salaoCentral);
-        quarto.portas.set(salaSecreta.nome, salaSecreta); //
-        salaSecreta.portas.set(quarto.nome, quarto);
         corredor.portas.set(salaoCentral.nome, salaoCentral);
         corredor.portas.set(salaSaida.nome, salaSaida);
         salaSaida.portas.set(corredor.nome, corredor);

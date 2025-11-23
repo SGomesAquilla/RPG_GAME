@@ -21,10 +21,33 @@ export class PoraoUmido extends Sala {
 		this.objetos.set(barrilQuebrado.nome, barrilQuebrado);
 	}
 
-	usa(ferramenta,objeto) {
-		validate(arguments,["String","String"]);
-		return false;
-	}
+	ataca(ferramentaNome, npcNome) { // Renomeei os parâmetros para evitar conflito de nome
+        validate(arguments, ["String", "String"]);
+        
+        if (!this.engine.mochila.tem(ferramentaNome)) {
+            return false;
+        }
+        if (!this.npc.has(npcNome)) {
+            return false;
+        }
+        
+        // Obtém a instância do NPC (que é um RatoGigante)
+        let alvoNpc = this.npc.get(npcNome); 
+        
+        // Obtém a instância da Ferramenta (ex: Espada)
+        let fer = this.engine.mochila.pega(ferramentaNome); 
+        
+        // 1. Chamada do método ataca() da classe NPC
+        // O método ataca do NPC é responsável por toda a lógica:
+        // - Se o NPC está vivo.
+        // - Se a fraqueza foi atingida (matar o NPC).
+        // - Se o NPC é hostil e contra-ataca (fim de jogo).
+        return alvoNpc.ataca(fer, this.engine);
+        
+        // Nota: O bloco 'if (fer.nome === "espada" && npc instanceof RatoGigante)' 
+        // original se torna desnecessário, pois a lógica de fraqueza já está centralizada 
+        // no método NPC.ataca().
+    }
 }
 // ---------------------------------------------
 export class Cela extends Sala {

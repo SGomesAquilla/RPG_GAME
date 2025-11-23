@@ -26,16 +26,24 @@ class NPC extends Objeto {
         return this.#vivo ? this.descricaoAntesAcao : `${this.nome} está morto.`;
     }
 
-    usa(ferramenta, engine) {
+    get descricaoAtaqueFalha() {
+        return this.#descricaoAtaqueFalha;
+    }
+
+    get descricaoAtaqueSucesso() {
+        return this.#descricaoAtaqueSucesso;
+    }
+
+    ataca(ferramenta, engine) {
         validate(arguments, [ferramenta, engine]);
 
         if (!this.#vivo) {
             console.log(`O que está fazendo ?... ${this.nome} já está morto...`);
-            return false;
+            return true;
         }
 
         // Se o NPC não tem fraqueza definida, morre pra qualquer ferramenta
-        if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza.nome) {
+        if (this.#fraqueza == "qualquer" || ferramenta.nome === this.#fraqueza) {
             this.#vivo = false;
             console.log(this.#descricaoAtaqueSucesso);
             return true;
@@ -43,9 +51,10 @@ class NPC extends Objeto {
 
         if (this.#hostil && this.#vivo) {
             console.log(`${this.nome} contra-ataca!`);
-            engine.indicaFimDeJogo();
+            engine.indicaFimDeJogo(false);
+            return true
         }
-
+        return false
     }	
 
 }
@@ -55,7 +64,7 @@ export class RatoGigante extends NPC {
         super(
             "Rato_Gigante",                                          
             "Um rato enorme com olhos vermelhos e dentes sujos.",    
-            "O ataque não surte efeito couro grosso do rato!",         
+            "O ataque não surte efeito no couro grosso do rato!\n Ele pula em você te perfura com seus gigantescos dentes e você morre",         
             "Você perfura o rato gigante. Ele guincha e morre.", 
             "espada",                                         
             true                                                     

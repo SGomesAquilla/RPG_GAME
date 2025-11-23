@@ -167,21 +167,6 @@ export class Sala {
 
 	textoDescricao() {
 		let descricao = "Você está no "+this.nome+"\n\n";
-		
-        if (this.objetos.size == 0){
-            descricao += "Não há objetos na sala\n\n";
-			
-        }else{
-            descricao += "Objetos: "+this.objetosDisponiveis()+"\n\n";
-			
-        }
-        if (this.ferramentas.size == 0){
-            descricao += "Não há ferramentas na sala\n\n";
-			
-        }else{
-            descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n\n";
-			
-        }
 		if (this.npc.size == 0) {
 			descricao += "Não há ninguém aqui\n\n";
 		
@@ -189,11 +174,29 @@ export class Sala {
 			descricao += "Você vê: " + this.npcsDisponiveis() + "\n\n";
 			
 		}
+		if (this.ferramentas.size == 0){
+            descricao += "Não há ferramentas na sala\n\n";
+			
+        }else{
+            descricao += "Ferramentas: "+this.ferramentasDisponiveis()+"\n\n";
+			
+        }		
+        if (this.objetos.size == 0){
+            descricao += "Não há objetos na sala\n\n";
+			
+        }else{
+            descricao += "Objetos: "+this.objetosDisponiveis()+"\n\n";
+			
+        }
         descricao += "Portas: "+this.portasDisponiveis()+"\n\n";
 		return descricao;
 	}
 
 	usa(ferramenta,objeto){
+		return false;
+	}
+
+	ataca(ferramenta, npc){
 		return false;
 	}
 }
@@ -255,17 +258,14 @@ export class Engine {
 				if (this.salaCorrente.pega(tokens[1])) {
 					console.log("-------------------------");
 					console.log("Ok! " + tokens[1] + " guardado!");
-					console.log("-------------------------");
 				} else {
 					console.log("-------------------------");
 					console.log("Objeto " + tokens[1] + " não encontrado.");
-					console.log("-------------------------");
 				}
 				break;
 			case "inventario":
 				console.log("-------------------------");
 				console.log("Ferramentas disponiveis para serem usadas: " + this.#mochila.inventario());
-				console.log("-------------------------");
 				break;
 			case "usa":
 					if (this.salaCorrente.usa(tokens[1],tokens[2])) {
@@ -279,12 +279,29 @@ export class Engine {
 							} else {
 								console.log("-------------------------");
 								console.log("Fim de Jogo... Você Perdeu 💀")
-								console.log("-------------------------");
 							}
 						}
 					} else {
 						console.log("-------------------------");
 						console.log("Não é possível usar " + tokens[1] + "sobre" + tokens[2] + " nesta sala");
+						console.log("-------------------------");
+					}
+				break;
+			case "ataca":
+					if (this.salaCorrente.ataca(tokens[1],tokens[2])) {
+						if (this.#fim == true){
+							if (this.#vitoria) {
+								console.log("-------------------------");
+								console.log("Parabéns!!! Você Venceu 🏆")
+								console.log("-------------------------");
+							} else {
+								console.log("-------------------------");
+								console.log("Fim de Jogo... Você Perdeu 💀")
+							}
+						}
+					} else {
+						console.log("-------------------------");
+						console.log("Não é possível atacar com " + tokens[1] + "contra" + tokens[2] + " nesta sala");
 						console.log("-------------------------");
 					}
 				break;

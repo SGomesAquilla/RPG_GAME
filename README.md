@@ -20,7 +20,13 @@ Este jogo roda utilizando **Node.js**.
     * Para verificar a instalação, abra seu terminal e digite: `node -v`
 
 2.  **Baixe o Jogo**:
-    * Clone este repositório ou baixe os arquivos para uma pasta local (ex: `RPG_PUCRS`).
+    * Clone este repositório utilizando Git.
+    ```bash
+    git clone [URL_DO_REPOSITORIO]
+    ```
+    Ou
+
+    * Procure e clique no botão verde que diz **"<> Code"**. Depois clique em **"Download ZIP"**. Após isso basta descompactar/extrair o conteúdo baixado.
 
 ---
 

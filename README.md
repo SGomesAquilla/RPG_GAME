@@ -37,7 +37,11 @@ Este jogo roda utilizando **Node.js**.
     ```bash
     cd caminho/para/RPG_PUCRS
     ```
-3.  Inicie a Engine do jogo:
+3.  Instale as depêndencias necessárias:
+    ```bash
+    npm install
+    ```
+4.  Inicie a Engine do jogo:
     ```bash
     node index.js
     ```

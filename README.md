@@ -46,7 +46,10 @@ Você interage com o mundo digitando comandos textuais. A Engine interpreta suas
 | :--- | :--- | :--- |
 | **Movimentação** | `sai [destino]` | `sai corredor` |
 | **Coletar Itens** | `pega [item]` | `pega espada` |
-| **Interagir/Usar** | `usa [ferramenta] [alvo]` | `usa chave bau`<br>`usa espada rato` |
+| **Soltar/Remover Itens** | `remove [item]` | `remove chave` |
+| **Interagir/Usar** | `usa [ferramenta] [alvo]` | `usa chave bau`<br>`usa magia candelabro` |
+| **Atacar** | `ataca [ferramenta] [alvo]` | `ataca espada rato`<br>`ataca magia monstro` |
+
 
 ---
 
